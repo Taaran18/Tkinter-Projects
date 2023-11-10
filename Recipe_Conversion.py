@@ -1,11 +1,14 @@
 import tkinter as tk
 from tkinter import messagebox
 
+
 class RecipeConversionApp:
     def __init__(self, root):
+        # Initialize the main application window
         self.root = root
         self.root.title("Recipe Conversion App")
 
+        # Dictionary to store conversion factors between different units
         self.conversions = {
             "teaspoon": 1,
             "tablespoon": 3,
@@ -14,6 +17,7 @@ class RecipeConversionApp:
             "gram": 0.2,
         }
 
+        # Create and configure widgets for entering conversion details
         self.ingredient_label = tk.Label(root, text="Ingredient:")
         self.ingredient_label.pack()
 
@@ -31,7 +35,9 @@ class RecipeConversionApp:
 
         self.from_unit_var = tk.StringVar(root)
         self.from_unit_var.set("teaspoon")
-        self.from_unit_menu = tk.OptionMenu(root, self.from_unit_var, *self.conversions.keys())
+        self.from_unit_menu = tk.OptionMenu(
+            root, self.from_unit_var, *self.conversions.keys()
+        )
         self.from_unit_menu.pack()
 
         self.to_unit_label = tk.Label(root, text="To Unit:")
@@ -39,28 +45,41 @@ class RecipeConversionApp:
 
         self.to_unit_var = tk.StringVar(root)
         self.to_unit_var.set("tablespoon")
-        self.to_unit_menu = tk.OptionMenu(root, self.to_unit_var, *self.conversions.keys())
+        self.to_unit_menu = tk.OptionMenu(
+            root, self.to_unit_var, *self.conversions.keys()
+        )
         self.to_unit_menu.pack()
 
-        self.convert_button = tk.Button(root, text="Convert", command=self.convert_quantity)
+        self.convert_button = tk.Button(
+            root, text="Convert", command=self.convert_quantity
+        )
         self.convert_button.pack()
 
         self.result_label = tk.Label(root, text="")
         self.result_label.pack()
 
     def convert_quantity(self):
+        # Get conversion details and perform the conversion
         ingredient = self.ingredient_entry.get()
         quantity = float(self.quantity_entry.get())
         from_unit = self.from_unit_var.get()
         to_unit = self.to_unit_var.get()
 
         if from_unit in self.conversions and to_unit in self.conversions:
-            converted_quantity = quantity * (self.conversions[to_unit] / self.conversions[from_unit])
-            self.result_label.config(text=f"{quantity:.2f} {from_unit} of {ingredient} is {converted_quantity:.2f} {to_unit}")
+            # Perform the conversion and update the result label
+            converted_quantity = quantity * (
+                self.conversions[to_unit] / self.conversions[from_unit]
+            )
+            self.result_label.config(
+                text=f"{quantity:.2f} {from_unit} of {ingredient} is {converted_quantity:.2f} {to_unit}"
+            )
         else:
+            # Show a warning if the selected units are not valid
             messagebox.showwarning("Warning", "Please select valid units.")
 
+
 if __name__ == "__main__":
+    # Create the main Tkinter window and start the app
     root = tk.Tk()
     app = RecipeConversionApp(root)
     root.mainloop()

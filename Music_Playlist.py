@@ -1,13 +1,17 @@
 import tkinter as tk
 from tkinter import messagebox
 
+
 class MusicPlaylistApp:
     def __init__(self, root):
+        # Initialize the main window
         self.root = root
         self.root.title("Music Playlist App")
 
+        # Initialize the playlist
         self.playlist = []
 
+        # Create labels, entry, buttons, and listbox for song management
         self.song_label = tk.Label(root, text="Song:")
         self.song_label.pack()
 
@@ -20,10 +24,13 @@ class MusicPlaylistApp:
         self.playlist_listbox = tk.Listbox(root)
         self.playlist_listbox.pack()
 
-        self.remove_button = tk.Button(root, text="Remove Song", command=self.remove_song)
+        self.remove_button = tk.Button(
+            root, text="Remove Song", command=self.remove_song
+        )
         self.remove_button.pack()
 
     def add_song(self):
+        # Function to add a song to the playlist
         song = self.song_entry.get()
         if song:
             self.playlist.append(song)
@@ -31,6 +38,7 @@ class MusicPlaylistApp:
             self.song_entry.delete(0, tk.END)
 
     def remove_song(self):
+        # Function to remove the selected song from the playlist
         selected_index = self.playlist_listbox.curselection()
         if selected_index:
             index = selected_index[0]
@@ -38,11 +46,14 @@ class MusicPlaylistApp:
             self.update_listbox()
 
     def update_listbox(self):
+        # Function to update the listbox with the current playlist
         self.playlist_listbox.delete(0, tk.END)
         for song in self.playlist:
             self.playlist_listbox.insert(tk.END, song)
 
+
 if __name__ == "__main__":
+    # Create the main Tkinter window and start the app
     root = tk.Tk()
     app = MusicPlaylistApp(root)
     root.mainloop()
